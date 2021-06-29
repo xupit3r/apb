@@ -4,7 +4,7 @@
 
 int main () {
   int midiNote;
-  double semitoneRatio, frequency;
+  double semitoneRatio, frequency, fracMidi;
 
   // frequency of MIDI note 0
   double c0;
@@ -27,6 +27,15 @@ int main () {
   frequency = c0 * pow(semitoneRatio, midiNote);
 
   printf("MIDI Note %d has frequency %f\n", midiNote, frequency);
+
+  // find the nearest MIDI note to a given frequency in Hz
+  // uses log rule: log_a(N) = log_b(N) / log_b(a) to find
+  // the log of a value to base "semitone ratio"
+  frequency = 400.0;
+  fracMidi = log(frequency / c0) / log (semitoneRatio);
+  midiNote = (int) (fracMidi + 0.5);
+
+  printf("The nearest MIDI note to the frequency %f is %d\n", frequency, midiNote);
 
   return 0;
 }
